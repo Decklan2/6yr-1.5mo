@@ -1,0 +1,29 @@
+# Created by https://www.toptal.com/developers/gitignore/api/rust  
+### Rust ###  
+/target  
+Cargo.lock  
+**/*.rs.bk  
+*\.locks
+
+[A-Z_]*.enc
+
+# Cargo  
+# The target directory used by cargo  
+target/
+
+# Ignore all .env files  
+**/*.env  
+**/env.example
+
+# Ignore backups and vim swap files  
+*~  
+*.swp
+
+# Ignore compiled binaries  
+*.exe  
+*.dll  
+*.so  
+*.dylib
+
+### VS Code ###  
+.vscode/  
