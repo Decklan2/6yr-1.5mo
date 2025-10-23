@@ -1,0 +1,43 @@
+// Define the TokenType Enum with Variants  
+#[derive(Debug)]  
+enum TokenType {  
+    Keyword(String),  
+    Identifier(String),  
+    Operator(String),  
+    Literal(String),  
+    Separator(String),  
+    Comment(String),  
+}
+
+// Define the Token Struct  
+#[derive(Debug)]  
+struct Token {  
+    token_type: TokenType,  
+    value: String,  
+}
+
+// Example of a Tokenizer Function to Detect Operators  
+fn tokenize(input: &str) -> Vec<Token> {  
+    let mut tokens = Vec::new();  
+    let mut chars = input.chars().peekable();
+
+    while let Some(&ch) = chars.peek() {  
+        let mut lexeme = String::new();
+
+        // Detect operators such as '+', '-', '*'  
+        if "+-*/".contains(ch) {  
+            chars.next(); // Consume the operator character  
+            lexeme.push(ch);  
+            tokens.push(Token {  
+                token_type: TokenType::Operator(lexeme),  
+                value: lexeme,  
+            });  
+        }  
+        // Add additional logic for handling other token types here
+
+        // Skip to the next character  
+        chars.next();  
+    }
+
+    tokens  
+}  
