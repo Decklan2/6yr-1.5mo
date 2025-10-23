@@ -1,0 +1,55 @@
+// Define the Expanded Set of Keywords for the Lexer  
+let keywords = [  
+"if", "else", "while", "return", "function",  
+"for", "do while", "define",  
+];
+
+// Function to Check if a Token is a Keyword  
+fn is_keyword(token: &str) -> bool {  
+keywords.contains(&token)  
+}
+
+// Example Tokenize Function: Update your logic to handle the additional keywords  
+fn tokenize(input: &str) -> Vec<Token> {  
+let mut tokens = Vec::new();  
+let mut chars = input.chars().peekable();
+
+while let Some(&ch) = chars.peek() {  
+let mut lexeme = String::new();
+
+// Capture a potential identifier/keyword  
+if ch.is_alphabetic() {  
+while let Some(&current_char) = chars.peek() {  
+if current_char.is_alphanumeric() || current_char == ' ' {  
+lexeme.push(chars.next().unwrap());  
+} else {  
+break;  
+}  
+}
+
+// Skip spaces and check for "do while"  
+if lexeme == "do" && chars.peek() == Some(&' ') {  
+chars.next(); // Consume the space  
+chars.nth(4); // Consume "while"  
+if lexeme.clone() + " " + chars.take(4).collect::<String>() == "do while" {  
+lexeme = "do while".to_string();  
+}
+
+let token_type = if is_keyword(&lexeme) {  
+TokenType::Keyword(lexeme)  
+} else {  
+TokenType::Identifier(lexeme)  
+};
+
+tokens.push(Token {  
+token_type,  
+value: lexeme,  
+});  
+} else {  
+// Handle other token types like operators and literals  
+chars.next(); // Consume the character  
+}  
+}
+
+tokens  
+}  
