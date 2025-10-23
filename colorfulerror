@@ -1,0 +1,57 @@
+import unittest
+
+def binary_to_decimal(binary_string):  
+  """Converts a binary string to decimal.
+
+  Args:  
+    binary_string: The binary string to convert.
+
+  Returns:  
+    The decimal equivalent of the binary string, or None if the input is invalid.  
+  """  
+  if not all(c in '01' for c in binary_string):  
+    print("\033[91mError: Invalid binary string. Contains non-binary characters.\033[0m") # Red color  
+    # Simulate a flash - quickly print some red characters  
+    for _ in range(3):  
+        print("\033[91m█\033[0m", end="")  
+    print()  
+    return None
+
+  try:  
+    decimal_value = int(binary_string, 2)  
+    return decimal_value  
+  except ValueError:  
+    print("\033[91mError: Invalid binary string format.\033[0m")  
+    # Simulate a flash - quickly print some red characters  
+    for _ in range(3):  
+        print("\033[91m█\033[0m", end="")  
+    print()  
+    return None
+
+  
+class TestBinaryConverter(unittest.TestCase):
+
+  def test_valid_conversion(self):  
+    self.assertEqual(binary_to_decimal("101"), 5)  
+    self.assertEqual(binary_to_decimal("1111"), 15)  
+    self.assertEqual(binary_to_decimal("0"), 0)  
+    self.assertEqual(binary_to_decimal("1"), 1)
+
+  def test_invalid_input(self):  
+    self.assertIsNone(binary_to_decimal("102"))  
+    self.assertIsNone(binary_to_decimal("abc"))  
+    self.assertIsNone(binary_to_decimal(""))  # Empty string
+
+  
+if __name__ == "__main__":  
+  while True:  
+    user_input = input("Enter a binary string (or 'exit' to quit): ")  
+    if user_input.lower() == "exit":  
+      break
+
+    result = binary_to_decimal(user_input)
+
+    if result is not None:  
+      print(f"The decimal equivalent of {user_input} is {result}")
+
+  unittest.main()  
